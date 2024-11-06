@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1091970467842",
+    "firebase_url": "https://medconnect-ed55b-default-rtdb.firebaseio.com",
+    "project_id": "medconnect-ed55b",
+    "storage_bucket": "medconnect-ed55b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091970467842:android:a820ecc83ae88bf1e67f1b",
+        "android_client_info": {
+          "package_name": "com.medconnect.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6PUne-ITnnnOjVcTgRYRIcE8rFijgVo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
