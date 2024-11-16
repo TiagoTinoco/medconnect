@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:medconnect/firebase_options.dart';
+import 'package:medconnect/views/auth/sign_up_page.dart';
 import 'package:provider/provider.dart';
 
 import 'views/auth/controller/auth_controller.dart';
@@ -38,6 +39,7 @@ class MedConnect extends StatelessWidget {
           SplashPage.routeName: (_) => const SplashPage(),
           Auth.routeName: (_) => const Auth(),
           SignInPage.routeName: (_) => const SignInPage(),
+          SignUpPage.routeName: (_) => const SignUpPage(),
         },
       ),
     );

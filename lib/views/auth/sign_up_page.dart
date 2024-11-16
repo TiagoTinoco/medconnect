@@ -1,39 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 import 'package:medconnect/utils/validators.dart';
+import 'package:medconnect/model/user_model.dart';
+
 import 'package:medconnect/views/components/custom_button_border.dart';
 import 'package:medconnect/views/components/custom_button_filled.dart';
-import 'package:medconnect/views/auth/controller/auth_controller.dart';
 
+import 'package:medconnect/views/auth/controller/auth_controller.dart';
 import 'package:medconnect/views/auth/widgets/custom_divider.dart';
 import 'package:medconnect/views/auth/widgets/custom_text_field.dart';
 import 'package:medconnect/views/auth/widgets/scaffold_bottom_form.dart';
-import 'package:medconnect/views/auth/sign_up_page.dart';
+import 'package:medconnect/views/home_page.dart';
 import 'package:provider/provider.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
-  static const routeName = '/singIn';
+  static const routeName = '/singUp';
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _phoneNumberController = MaskedTextController(mask: '(00) 00000-0000');
 
   bool loading = false;
 
-  signIn() async {
+  signUp() async {
     setState(() => loading = true);
     try {
       final email = _emailController.text;
+      final name = _nameController.text;
       final password = _passwordController.text;
+      final phoneNumber = _phoneNumberController.text;
 
-      await context.read<AuthController>().signIn(email, password);
+      await context.read<AuthController>().signUp(
+            UserModel(
+              name: name,
+              email: email,
+              phoneNumber: phoneNumber,
+              isDoctor: false,
+            ),
+            password,
+          );
+
+      // ignore: use_build_context_synchronously
+      await Navigator.of(context).pushReplacement(
+        PageRouteBuilder<void>(
+          transitionDuration: const Duration(milliseconds: 1000),
+          reverseTransitionDuration: const Duration(milliseconds: 500),
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return SizeTransition(
+              sizeFactor: animation,
+              child: const HomePage(),
+            );
+          },
+        ),
+      );
     } on AuthException catch (error) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
@@ -56,6 +85,13 @@ class _SignInPageState extends State<SignInPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             CustomTextField(
+              icon: Icons.person_outlined,
+              label: 'Nome',
+              controller: _nameController,
+              validator: nameValidator,
+              textInputType: TextInputType.name,
+            ),
+            CustomTextField(
               icon: Icons.email_outlined,
               label: 'E-mail',
               controller: _emailController,
@@ -64,28 +100,34 @@ class _SignInPageState extends State<SignInPage> {
             ),
             CustomTextField(
               icon: Icons.lock_outline,
-              label: 'Password',
+              label: 'Senha',
               controller: _passwordController,
               validator: passwordValidator,
               isSecret: true,
             ),
+            CustomTextField(
+              icon: Icons.lock_outline,
+              label: 'Telefone',
+              controller: _phoneNumberController,
+              validator: phoneValidator,
+            ),
             const CustomDivider(),
             const SizedBox(height: 10),
             CustomButtonFilled(
-              title: loading ? 'Carregando...' : 'Entrar',
+              title: loading ? 'Criando...' : 'Criar',
               onPressed: !loading
                   ? () async {
                       FocusScope.of(context).unfocus();
                       if (_formKey.currentState!.validate()) {
-                        await signIn();
+                        await signUp();
                       }
                     }
                   : () {},
             ),
             const SizedBox(height: 10),
             CustomButtonBorder(
-              title: 'Cadastrar-se',
-              onPressed: () => Navigator.of(context).pushNamed(SignUpPage.routeName),
+              title: 'Voltar',
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ],
         ),

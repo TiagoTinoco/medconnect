@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:medconnect/model/user_model.dart';
 
 class AuthException implements Exception {
   String message;
@@ -59,21 +60,16 @@ class AuthController extends ChangeNotifier {
     }
   }
 
-  Future<void> signUp(String email, String name, String password) async {
+  Future<void> signUp(UserModel user, String password) async {
     isSignUp = true;
 
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
+        email: user.email,
         password: password,
       );
 
-      await _firestore.collection('users').doc(_firebaseAuth.currentUser!.uid).set({
-        'name': name,
-        'email': email,
-        'phoneNumber': '',
-        'isDoctor': false,
-      });
+      await _firestore.collection('users').doc(_firebaseAuth.currentUser!.uid).set(user.toMap());
 
       await _getUser();
     } on FirebaseAuthException catch (error) {
