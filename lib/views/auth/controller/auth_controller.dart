@@ -3,24 +3,42 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:medconnect/model/user_model.dart';
 
+/// Custom throw exception that return a messages
 class AuthException implements Exception {
   String message;
 
   AuthException({required this.message});
 }
 
+/// Created a controller class that extends [ChangeNotifier], it is default [provider] class
 class AuthController extends ChangeNotifier {
+  /// The [FirebaseAuth] this variable controll the [signIn] and [signUp]. In addition it manage the email and password of [user]
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  /// The [FirebaseFirestore] this variable controll the [data base]. In addition it all manage the collections, it is [CRUD] (get, set, update and delete).
+  /// You can get an instance by calling [_firestore]. for example:
+  ///
+  /// ```dart
+  /// _firestore.collection('users').doc('id' OPTIONAL).get();
+  /// _firestore.collection('users').doc('id').set({})
+  /// _firestore.collection('users').doc('id').update({});
+  /// _firestore.collection('users').doc('id').delete({});
+  ///
+  /// ```
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   User? user;
   bool isSignUp = false;
   bool isLoading = true;
 
+  /// This is the class constructor that is calling to [_authCheck]
   AuthController() {
     _authCheck();
   }
 
+  /// Consulting in [_firebaseAuth] and listening if the variable [user]
+  /// is changed, and case if changed i use [notifyListeners] to change state
+  /// of screen
   _authCheck() {
     _firebaseAuth.authStateChanges().listen((User? user) {
       this.user = (user == null) ? null : user;
@@ -29,6 +47,7 @@ class AuthController extends ChangeNotifier {
     });
   }
 
+  /// Consulting in [_firebaseAuth] the user is logged in app
   _getUser() {
     user = _firebaseAuth.currentUser;
 
