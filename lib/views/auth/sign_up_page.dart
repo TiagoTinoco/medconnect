@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:medconnect/views/bottom_navigator.dart';
 
 import 'package:medconnect/utils/validators.dart';
 import 'package:medconnect/model/user_model.dart';
@@ -58,7 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
           pageBuilder: (context, animation, secondaryAnimation) {
             return SizeTransition(
               sizeFactor: animation,
-              child: const HomePage(),
+              child: const BottomNavigator(),
             );
           },
         ),

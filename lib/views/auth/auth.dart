@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:medconnect/views/bottom_navigator.dart';
 import 'package:provider/provider.dart';
-import 'package:medconnect/error_page.dart';
+import 'package:medconnect/views/error_page.dart';
 
 import 'package:medconnect/views/auth/controller/auth_controller.dart';
 import 'package:medconnect/views/auth/sign_in_page.dart';
@@ -24,6 +25,8 @@ class _AuthState extends State<Auth> {
       return const Loading();
     } else if (auth.user == null) {
       return const SignInPage();
+    } else if (!auth.isSignUp) {
+      return const BottomNavigator();
     } else {
       return const ErrorPage();
     }

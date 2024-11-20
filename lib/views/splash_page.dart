@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:medconnect/views/auth/auth.dart';
 
-import 'configs/custom_colors.dart';
-
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 

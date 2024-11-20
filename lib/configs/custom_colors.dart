@@ -15,6 +15,6 @@ Map<int, Color> _swatchOpacity = {
 
 abstract class CustomColors {
   static MaterialColor primary = MaterialColor(0xFF042F4D, _swatchOpacity);
+  static Color secondary = const Color(0xFF589CCE);
   static Color warning = const Color(0xFFC94949);
-  static Color secondary = const Color(0xFFFFB600);
 }

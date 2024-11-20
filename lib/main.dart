@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'views/auth/controller/auth_controller.dart';
 
-import 'package:medconnect/splash_page.dart';
+import 'package:medconnect/views/splash_page.dart';
 import 'package:medconnect/views/auth/auth.dart';
 import 'package:medconnect/views/auth/sign_in_page.dart';
 
