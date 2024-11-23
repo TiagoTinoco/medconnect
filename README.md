@@ -19,6 +19,14 @@ O Medconnect é uma aplicação de chat médico desenvolvida com Flutter e Fireb
 
 O design do Medconnect foi criado no Figma. As interfaces foram desenvolvidas para garantir uma experiência de usuário agradável e responsiva. A parte visual do projeto é baseada no [mockup do Figma](https://www.figma.com/design/FpFIpRwEUMOa8KzN4DwGSe/PI---DESENVOLVIMENTO-DE-SISTEMAS-WEB-MODULARIZ%C3%81VEIS?node-id=0-1&t=DB4P0Zy7czGF2WXi-1).
 
+## Telas de Exemplo do Projeto
+
+### Tela de Login
+![Tela de Login](https://github.com/TiagoTinoco/medconnect/blob/master/Imagens_figma/signIn.png)
+
+### Tela Home
+![Tela Home](https://github.com/TiagoTinoco/medconnect/blob/master/Imagens_figma/home.png)
+
 ## Pré-requisitos
 
 Antes de iniciar, verifique se você possui os seguintes requisitos instalados:
