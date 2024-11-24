@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:medconnect/model/user_model.dart';
 
 /// Custom throw exception that return a messages
-class AuthException implements Exception {
+class GenericException implements Exception {
   String message;
 
-  AuthException({required this.message});
+  GenericException({required this.message});
 }
 
 /// Created a controller class that extends [ChangeNotifier], it is default [provider] class
@@ -68,14 +68,14 @@ class AuthController extends ChangeNotifier {
       await _getUser();
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {
-        throw AuthException(message: 'O usuário não foi encontrado.');
+        throw GenericException(message: 'O usuário não foi encontrado.');
       } else if (error.code == 'invalid-credential') {
-        throw AuthException(message: 'E-mail ou senha incorreto. Tente novamente.');
+        throw GenericException(message: 'E-mail ou senha incorreto. Tente novamente.');
       } else if (error.code == 'too-many-requests') {
-        throw AuthException(message: 'Muitas tentativas, aguarde e tente novamente.');
+        throw GenericException(message: 'Muitas tentativas, aguarde e tente novamente.');
       }
     } catch (error) {
-      throw AuthException(message: 'Houve um erro inesperado');
+      throw GenericException(message: 'Houve um erro inesperado');
     }
   }
 
@@ -93,12 +93,12 @@ class AuthController extends ChangeNotifier {
       await _getUser();
     } on FirebaseAuthException catch (error) {
       if (error.code == 'weak-password') {
-        throw AuthException(message: 'A senha é muito fraca.');
+        throw GenericException(message: 'A senha é muito fraca.');
       } else if (error.code == 'email-already-in-use') {
-        throw AuthException(message: 'Esse email ja está cadastrado.');
+        throw GenericException(message: 'Esse email ja está cadastrado.');
       }
     } catch (error) {
-      throw AuthException(message: 'Não foi possivel cadastrar. Tente novamente.');
+      throw GenericException(message: 'Não foi possivel cadastrar. Tente novamente.');
     }
   }
 
@@ -107,7 +107,7 @@ class AuthController extends ChangeNotifier {
       await _firebaseAuth.signOut();
       await _getUser();
     } catch (error) {
-      throw AuthException(message: 'Houve um erro inesperado.');
+      throw GenericException(message: 'Houve um erro inesperado.');
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:medconnect/configs/snackbar_helper.dart';
 import 'package:medconnect/views/bottom_navigator.dart';
 
 import 'package:medconnect/utils/validators.dart';
@@ -8,9 +9,9 @@ import 'package:medconnect/model/user_model.dart';
 import 'package:medconnect/views/components/custom_button_border.dart';
 import 'package:medconnect/views/components/custom_button_filled.dart';
 
-import 'package:medconnect/views/auth/controller/auth_controller.dart';
+import 'package:medconnect/controller/auth_controller.dart';
 import 'package:medconnect/views/auth/widgets/custom_divider.dart';
-import 'package:medconnect/views/auth/widgets/custom_text_field.dart';
+import 'package:medconnect/views/components/custom_text_field.dart';
 import 'package:medconnect/views/auth/widgets/scaffold_bottom_form.dart';
 import 'package:medconnect/views/home_page.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  late final _authController = context.read<AuthController>();
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _nameController = TextEditingController();
@@ -41,15 +44,16 @@ class _SignUpPageState extends State<SignUpPage> {
       final password = _passwordController.text;
       final phoneNumber = _phoneNumberController.text;
 
-      await context.read<AuthController>().signUp(
-            UserModel(
-              name: name,
-              email: email,
-              phoneNumber: phoneNumber,
-              isDoctor: false,
-            ),
-            password,
-          );
+      await _authController.signUp(
+        UserModel(
+          name: name,
+          email: email,
+          phoneNumber: phoneNumber,
+          isDoctor: false,
+          reminders: [],
+        ),
+        password,
+      );
 
       // ignore: use_build_context_synchronously
       await Navigator.of(context).pushReplacement(
@@ -64,13 +68,11 @@ class _SignUpPageState extends State<SignUpPage> {
           },
         ),
       );
-    } on AuthException catch (error) {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: const Color(0xFF0F0F0F).withOpacity(0.9),
-          content: Center(child: Text(error.message)),
-        ),
+    } on GenericException catch (error) {
+      SnackbarHelper.showSnackbar(
+        // ignore: use_build_context_synchronously
+        context: context,
+        message: error.message,
       );
     } finally {
       setState(() => loading = false);

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medconnect/configs/custom_colors.dart';
 import 'package:medconnect/views/home_page.dart';
+import 'package:medconnect/views/schedule_page.dart';
+import 'package:medconnect/views/settings_page.dart';
 
 class BottomNavigator extends StatefulWidget {
   const BottomNavigator({super.key});
@@ -16,8 +18,8 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
 
   List<Widget> pages = <Widget>[
     const HomePage(),
-    const HomePage(),
-    const HomePage(),
+    const SchedulePage(),
+    const SettingsPage(),
   ];
 
   List<BottomNavigationBarItem> iconsPage = <BottomNavigationBarItem>[

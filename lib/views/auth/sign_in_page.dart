@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:medconnect/configs/snackbar_helper.dart';
 
 import 'package:medconnect/utils/validators.dart';
 import 'package:medconnect/views/components/custom_button_border.dart';
 import 'package:medconnect/views/components/custom_button_filled.dart';
-import 'package:medconnect/views/auth/controller/auth_controller.dart';
+import 'package:medconnect/controller/auth_controller.dart';
 
 import 'package:medconnect/views/auth/widgets/custom_divider.dart';
-import 'package:medconnect/views/auth/widgets/custom_text_field.dart';
+import 'package:medconnect/views/components/custom_text_field.dart';
 import 'package:medconnect/views/auth/widgets/scaffold_bottom_form.dart';
 import 'package:medconnect/views/auth/sign_up_page.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,8 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  late final _authController = context.read<AuthController>();
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -33,14 +36,12 @@ class _SignInPageState extends State<SignInPage> {
       final email = _emailController.text;
       final password = _passwordController.text;
 
-      await context.read<AuthController>().signIn(email, password);
-    } on AuthException catch (error) {
+      await _authController.signIn(email, password);
+    } on GenericException catch (error) {
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: const Color(0xFF0F0F0F).withOpacity(0.9),
-          content: Center(child: Text(error.message)),
-        ),
+      SnackbarHelper.showSnackbar(
+        context: context,
+        message: error.message,
       );
     } finally {
       setState(() => loading = false);
