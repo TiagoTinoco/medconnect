@@ -47,6 +47,8 @@ Antes de iniciar, verifique se você possui os seguintes requisitos instalados:
    flutter pub get
 4. Configure o Firebase (opcional, caso necessário para testes):
    Siga as instruções na documentação oficial do Firebase para integrar o Firebase ao projeto.
+5. Execute o aplicativo:
+flutter run
 
 ## Estrutura do Projeto
 
